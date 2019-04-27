@@ -1,0 +1,105 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #FF8080, #1B82C7);
+  background-attachment:fixed;
+  font-family: 微软雅黑, sans-serif;
+  font-weight: 100;
+}
+.inputZone {}
+input.input-form, select, textarea {
+    height: 42px;
+    border: 2px solid #d1d3d4;
+    width: 80%;
+    padding: 0px 5px;
+    font-family: "Poppins";
+    border-radius: 6px;
+    color: #333;
+    background: rgba(255,255,255,.2);
+    margin:5px;
+}
+input.input-form:focus, input.input-form.active {
+  outline: none;
+  border-color: #1B82C7;
+  background: rgba(255,255,255,.5);
+
+}
+.container {
+  position: absolute;
+  top: 10px;
+  margin: 10px:
+}
+.teamName {
+	font-weight: 550;
+}
+.leagueName {
+	font-size: 12px;
+	Display: inline-block;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin: 0px 0px 0px 5px;
+  line-height: 1;	
+  background: #C8CADB;
+  color: #5A5F8C;
+}
+.broadcast {
+	font-size: 14px;
+	Display: inline-block;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin: 0px 0px 0px 5px;
+  line-height: 1;	
+  background: #FFD8B0;
+  color: #5A5F8C;
+}
+.dateClass {font-size: 14px; margin: 0px 5px; text-align:left;}
+.timeClass {
+	font-size: 20px; font-weight: bolder;
+	margin: 0px 0px 0px 15px;
+	text-align: center;
+	text-shadow: 0px 0px 3px #fff;
+}
+.firstColumn {column-width:50px;}
+.thirdColumn {column-width:200px;}
+table {
+  width: 700px;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+th,
+td {
+  padding: 10px 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+th {
+  text-align: left;
+}
+thead th {
+  background-color: #55608f;
+}
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+tbody td {
+  position: relative;
+}
+tbody td img {
+  height: 30px;
+  vertical-align: middle;
+}
+tbody td:hover:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9999px;
+  bottom: -9999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}

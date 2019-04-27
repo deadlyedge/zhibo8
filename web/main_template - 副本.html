@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>直播吧定制过滤</title>
+
+
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body>
+
+
+<div class="container">
+    <div class="input__wrapper">
+        <input class="input-form" type="text" placeholder="输入喜欢的球队">
+    </div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>TIME</th>
+            <th>GAME</th>
+            <th>BROADCAST</th>
+        </tr>
+        </thead>
+        <tbody>
+        % for game in showListReady
+        <tr>
+            <td class="firstColumn">
+                <div class="dateClass">${game[0][0]}</div>
+                <div class="timeClass">${game[0][1]}</div>
+            </td>
+            <td class="secondColumn">
+                <span class="teamName">${game[1][0]}</span>
+                <span><img src="images/asenna.png"></span>
+                <span class="VS">VS</span>
+                <span><img src="images/langdui.png"></span>
+                <span class="teamName">${game[1][1]}</span>
+                <span class="leagueName">英超</span>
+            </td>
+            <td class="thirdColumn">
+                <span class="broadcast">${game[2][0]}</span>
+                <span class="broadcast">直播</span>
+                <span class="broadcast">直播</span>
+            </td>
+        </tr>
+        % endfor
+        <tr>
+            <td class="firstColumn">
+                <div class="dateClass">4月30日</div>
+                <div class="timeClass">10:30</div>
+            </td>
+            <td class="secondColumn">
+                <span class="teamName">阿森纳</span>
+                <span><img src="images/asenna.png"></span>
+                <span class="VS">VS</span>
+                <span><img src="images/langdui.png"></span>
+                <span class="teamName">狼队</span>
+                <span class="leagueName">英超</span>
+            </td>
+            <td class="thirdColumn">
+                <span class="broadcast">QQ直播</span>
+                <span class="broadcast">直播</span>
+                <span class="broadcast">直播</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="firstColumn">
+                <div class="dateClass">4月30日</div>
+                <div class="timeClass">10:30</div>
+            </td>
+            <td class="secondColumn">
+                <span class="teamName">阿森纳</span>
+                <span><img src="images/asenna.png"></span>
+                <span class="VS">VS</span>
+                <span><img src="images/langdui.png"></span>
+                <span class="teamName">狼队</span>
+                <span class="leagueName">英超</span>
+            </td>
+            <td class="thirdColumn">
+                <span class="broadcast">QQ直播</span>
+                <span class="broadcast">直播</span>
+                <span class="broadcast">直播</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+
+</html>
