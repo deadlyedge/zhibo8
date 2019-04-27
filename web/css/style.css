@@ -31,7 +31,26 @@ input.input-form:focus, input.input-form.active {
   position: absolute;
   top: 10px;
   left: 10px;
-  margin: 10px:
+}
+.scrollstyle {
+	overflow-y: scroll;
+}
+#scrollstyle::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color: rgba(150,150,180,1);
+}
+#scrollstyle::-webkit-scrollbar
+{
+	border-radius: 10px;
+	width: 12px;
+	background-color: #777;
+}
+
+#scrollstyle::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #55608f;
 }
 .teamName {
 	font-weight: 550;

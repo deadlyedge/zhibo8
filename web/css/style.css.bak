@@ -4,7 +4,7 @@ body {
 }
 body {
   margin: 0;
-  background: linear-gradient(135deg, #FF8080, #1B82C7);
+  background: linear-gradient(135deg, #f66, #1B82C7);
   background-attachment:fixed;
   font-family: 微软雅黑, sans-serif;
   font-weight: 100;
@@ -30,7 +30,27 @@ input.input-form:focus, input.input-form.active {
 .container {
   position: absolute;
   top: 10px;
-  margin: 10px:
+  left: 10px;
+}
+.scrollstyle {
+	overflow-y: scroll;
+}
+#scrollstyle::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color: rgba(150,150,180,1);
+}
+#scrollstyle::-webkit-scrollbar
+{
+	border-radius: 10px;
+	width: 12px;
+}
+
+#scrollstyle::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #55608f;
 }
 .teamName {
 	font-weight: 550;

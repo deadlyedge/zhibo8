@@ -28,12 +28,17 @@ def getHtml(url="https://www.zhibo8.cc/"):
 def reform(result):  # 整理比赛数据格式
     sort = [result[1], result[0], result[2]]
     timeLeft = time.mktime(time.strptime(sort[0], '%Y-%m-%d %H:%M')) - time.time()
-    if timeLeft < 82800 and "00:00" <= sort[0][-5:] <= "05:00":  # 判断时间是否需要替换为汉字
-        sort[0] = "今夜 " + sort[0][-5:]
-    elif timeLeft < 82800:  # 判断时间是否需要替换为汉字
-        sort[0] = "今天 " + sort[0][-5:]
-    elif timeLeft < 169200:  # ‘明晚’方法待考证
-        sort[0] = "明天 " + sort[0][-5:]
+    currentDay = time.strftime('%d', time.localtime())
+    listDay = sort[0][8:10]
+    listTime = sort[0][-5:]
+    if timeLeft < 82800 and "00:00" <= listTime <= "05:00":  # 判断时间是否需要替换为汉字
+        sort[0] = "今夜 " + listTime
+    elif timeLeft < 82800 and currentDay == listDay:  # 判断时间是否需要替换为汉字
+        sort[0] = "今天 " + listTime
+    elif timeLeft < 144000 and "00:00" <= listTime <= "05:00":
+        sort[0] = "明晚 " + listTime
+    elif timeLeft < 144000:
+        sort[0] = "明天 " + listTime
     return sort
 
 
@@ -49,7 +54,7 @@ def splitTeamInfo(gameInfoList):
 
 
 def showTeam(*args):
-    showList = showListReady = []       #预定义变量
+    showList = listReady = []  # 预定义变量
     targetRE = '<li label="(.*?)" id="saishi.*?data-time="(.*?)".*?">(.*?)</a>'
     results = re.findall(targetRE, getHtml(), re.S)
 
@@ -59,16 +64,16 @@ def showTeam(*args):
             if team in resultReform[1] and resultReform not in showList:
                 showList.append(resultReform)
     for game in range(len(showList)):  # 整理成分组的list，[第一组时间][第二组比赛信息][第三组转播信息]
-        showListReady[game] = [showList[game][0].split()] + [splitTeamInfo(showList[game][1])] + \
+        listReady[game] = [showList[game][0].split()] + [splitTeamInfo(showList[game][1])] + \
                               [showList[game][2].split()]
-    return showListReady
+    return listReady
 
 
 if __name__ == '__main__':
     showListReady = showTeam('国安', '利物浦', '阿森纳', '热刺', '勇士', 'F1', '皇家马德里')
-    filename = os.path.join(root, 'web', 'index.html')
+    filename = os.path.join(templates_dir, 'index.html')
     with open(filename, 'w', encoding='UTF-8') as fh:
         output = template.render(showListReady=showListReady)
         fh.write(output)
-    eel.init('web')
-    eel.start('index.html', size=(760, 700))
+    eel.init(templates_dir)
+    eel.start('index.html', size=(736, 730))

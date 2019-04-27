@@ -11,12 +11,22 @@
 
 </head>
 
-<body>
+<body class="scrollstyle" id="scrollstyle">
 
 
-<div class="container">
+<div class="container scrollbar">
     <div class="input__wrapper">
-        <input class="input-form" type="text" placeholder="输入喜欢的球队">
+        <input class="input-form" type="text" placeholder="输入喜欢的球队" id="teams">
+        <script>
+            document.getElementById('teams').onkeypress = function(e){
+                if (!e) e = window.event;
+                if (e.keyCode == '13'){
+                    alert(this.value);
+                    return false;
+                }
+            }
+        </script>
+
     </div>
 
 
