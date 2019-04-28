@@ -4,9 +4,10 @@ import re, requests, time, eel
 
 root = os.path.dirname(os.path.abspath(__file__))
 
-templates_dir = os.path.join(root, "web")
+templates_dir = os.path.join(root, "web/")
 env = Environment(loader=FileSystemLoader(templates_dir))
 template = env.get_template('main_template.html')
+eel.init(templates_dir)
 
 
 def getHtml(url="https://www.zhibo8.cc/"):
@@ -65,7 +66,7 @@ def showTeam(*args):
                 showList.append(resultReform)
     for game in range(len(showList)):  # 整理成分组的list，[第一组时间][第二组比赛信息][第三组转播信息]
         listReady[game] = [showList[game][0].split()] + [splitTeamInfo(showList[game][1])] + \
-                              [showList[game][2].split()]
+                          [showList[game][2].split()]
     return listReady
 
 
@@ -75,5 +76,5 @@ if __name__ == '__main__':
     with open(filename, 'w', encoding='UTF-8') as fh:
         output = template.render(showListReady=showListReady)
         fh.write(output)
-    eel.init(templates_dir)
+
     eel.start('index.html', size=(736, 730))
