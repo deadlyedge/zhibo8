@@ -1,9 +1,9 @@
-import eel
+import datetime
 import os
 import re
-import requests
-import datetime
 
+import eel
+import requests
 from jinja2 import Environment, FileSystemLoader
 
 root = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +14,14 @@ template = env.get_template('main_template.html')
 eel.init(templates_dir)
 
 
-def getHtml(url="https://www.zhibo8.cc/"):
+@eel.expose
+def handleInput(teamInput):
+    if teamInput == []:
+        teamInput = ['国安', '利物浦', '阿森纳', '热刺', '勇士', 'F1', '皇家马德里']
+    return teamInput
+
+
+def getHtml(url="https://www.zhibo8.cc/"):  # 设法消除非UTF-8网页编码带来的乱码
     req = requests.get(url)
 
     if req.encoding == 'ISO-8859-1':
@@ -32,44 +39,54 @@ def getHtml(url="https://www.zhibo8.cc/"):
 
 def reform(result):  # 整理比赛数据格式
     sort = [result[1], result[0], result[2]]
-    today = datetime.date.today()
+    now = datetime.datetime.now().strftime('%H:%M')
+
+    # 优化由于睡眠时间产生的歧义
+    today = datetime.date.today() - datetime.timedelta(days=1 if '00:00' < now < '05:00' else 0)
+
     tomorrow = today + datetime.timedelta(days=1)
     theDayAfterTomorrow = today + datetime.timedelta(days=2)
     listDay = sort[0][:10]
     listTime = sort[0][-5:]
     night = True if "00:00" <= listTime <= "05:00" else False
-    if listDay == str(today):  # 判断时间是否需要替换为汉字
-        sort[0] = "今天 " + listTime
-    elif listDay == str(tomorrow) and night:  # 判断时间是否需要替换为汉字
+
+    # 判断时间是否需要替换为汉字 如果是明天凌晨转换为‘今夜’，同理后天凌晨转换为‘明晚’
+    if listDay == str(tomorrow) and night:
         sort[0] = "今夜 " + listTime
+    elif listDay == str(today):
+        sort[0] = "今天 " + listTime
     elif listDay == str(tomorrow):
         sort[0] = "明天 " + listTime
     elif listDay == str(theDayAfterTomorrow) and night:
         sort[0] = "明晚 " + listTime
+    else:
+        sort[0] = sort[0][5:10] + ' ' + listTime  # 切掉年份
     return sort
 
 
 def splitTeamInfo(gameInfoList):
+
+    # 将以下字符归类为tags
     nonTeam = ['欧联杯', '足球', '篮球', 'NBA', 'CBA', '英超', '西甲', '荷甲', '待定',
                '中超', '亚冠', '欧冠', '中甲', '足协杯', 'MLB', 'MLB常规赛', '英格兰橄榄球超级联赛']
+
+    # 定义需要消除的tags
     giveup = ['篮球', '足球', 'F1', '其他']
+
     gameInfo = gameInfoList.split(',')
-    temp1 = [i for i in gameInfo if i not in nonTeam and i not in giveup]
-    temp2 = [i for i in gameInfo if i in nonTeam and i not in giveup]
-    gameInfoListSorted = [temp1] + [temp2]
-    return gameInfoListSorted
+    teams = [i for i in gameInfo if i not in nonTeam and i not in giveup]
+    tags = [i for i in gameInfo if i in nonTeam and i not in giveup]
+    return [teams] + [tags]
 
 
 def showTeam(*args):
     showList = listReady = []  # 预定义变量
     targetRE = '<li label="(.*?)" id="saishi.*?data-time="(.*?)".*?">(.*?)</a>'
     results = re.findall(targetRE, getHtml(), re.S)
-
     for result in results:
-        resultReform = reform(result)
         for team in args:
-            if team in resultReform[1] and resultReform not in showList:
-                showList.append(resultReform)
+            if team in result[0] and result not in showList:
+                showList.append(reform(result))
     for game in range(len(showList)):  # 整理成分组的list，[第一组时间][第二组比赛信息][第三组转播信息]
         listReady[game] = [showList[game][0].split()] + [splitTeamInfo(showList[game][1])] + \
                           [showList[game][2].split()]
@@ -77,7 +94,7 @@ def showTeam(*args):
 
 
 if __name__ == '__main__':
-    showListReady = showTeam('国安', '利物浦', '阿森纳', '热刺', '勇士', 'F1', '皇家马德里')
+    showListReady = showTeam(*handleInput(teamInput=[]))
     filename = os.path.join(templates_dir, 'index.html')
     with open(filename, 'w', encoding='UTF-8') as fh:
         output = template.render(showListReady=showListReady)

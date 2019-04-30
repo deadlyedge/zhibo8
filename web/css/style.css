@@ -79,15 +79,17 @@ input.input-form:focus, input.input-form.active {
 .dateClass {font-size: 14px; margin: 0px 5px; text-align:left;}
 .timeClass {
 	font-size: 20px; font-weight: bolder;
-	margin: 0px 0px 0px 15px;
+	margin: 0px 15px 0px 35px;
 	text-align: center;
 	text-shadow: 0px 0px 3px #fff;
 }
-.firstColumn {column-width:50px;}
-.thirdColumn {column-width:200px;}
+.firstColumn {width:100px;}
+.secondColumn {width:370px;}
+.thirdColumn {width:230px;}
 table {
   width: 700px;
   border-collapse: collapse;
+  table-layout: fixed;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }

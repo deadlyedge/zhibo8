@@ -33,19 +33,19 @@
     <table>
         <thead>
         <tr>
-            <th>TIME</th>
-            <th>GAME</th>
-            <th>BROADCAST</th>
+            <th class="firstColumn">TIME</th>
+            <th class="secondColumn">GAME</th>
+            <th class="thirdColumn">BROADCAST</th>
         </tr>
         </thead>
         <tbody>
         {% for game in showListReady %}
         <tr>
-            <td class="firstColumn">
+            <td>
                 <div class="dateClass">{{game[0][0]}}</div>
                 <div class="timeClass">{{game[0][1]}}</div>
             </td>
-            <td class="secondColumn">
+            <td>
                 <span class="teamName">{{game[1][0][0]}}</span>
                 <span></span>
                 <span class="VS">VS</span>
@@ -55,7 +55,7 @@
                 <span class="leagueName">{{tag}}</span>
                 {% endfor %}
             </td>
-            <td class="thirdColumn">
+            <td>
                 {% for broadcast in game[2] %}
                 <span class="broadcast">{{broadcast}}</span>
                 {% endfor %}
