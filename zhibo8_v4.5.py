@@ -16,7 +16,7 @@ eel.init(templates_dir)
 
 @eel.expose
 def handleInput(teamInput):
-    if teamInput == []:
+    if not teamInput:
         teamInput = ['国安', '利物浦', '阿森纳', '热刺', '勇士', 'F1', '皇家马德里']
     return teamInput
 
@@ -100,4 +100,4 @@ if __name__ == '__main__':
         output = template.render(showListReady=showListReady)
         fh.write(output)
 
-    eel.start('index.html', size=(736, 730))
+    eel.start('index.html', size=(752, 730))
