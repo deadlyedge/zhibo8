@@ -2,8 +2,8 @@ import datetime
 import os
 import re
 
-import eel
 import requests
+import wuy
 from jinja2 import Environment, FileSystemLoader
 
 root = os.path.dirname(os.path.abspath(__file__))
@@ -12,13 +12,10 @@ templates_dir = os.path.join(root, "web/")
 env = Environment(loader=FileSystemLoader(templates_dir))
 template = env.get_template('main_template.html')
 filename = os.path.join(templates_dir, 'index.html')
-eel.init(templates_dir)
 
 
-def handleInput(teamInput):
-    if not teamInput:
-        teamInput = ['国安', '利物浦', '阿森纳', '热刺', '勇士', 'F1', '皇家马德里']
-    return teamInput
+# def handleInput(teamInput):
+#     return teamInput
 
 
 def getHtml(url="https://www.zhibo8.cc/"):  # 设法消除非UTF-8网页编码带来的乱码
@@ -65,7 +62,6 @@ def reform(result):  # 整理比赛数据格式
 
 
 def splitTeamInfo(gameInfoList):
-
     # 将以下字符归类为tags
     nonTeam = ['欧联杯', '足球', '篮球', 'NBA', 'CBA', '英超', '西甲', '荷甲', '待定',
                '中超', '亚冠', '欧冠', '中甲', '足协杯', 'MLB', 'MLB常规赛', '英格兰橄榄球超级联赛']
@@ -93,10 +89,27 @@ def showTeam(*args):
     return listReady
 
 
-if __name__ == '__main__':
-    showListReady = showTeam(*handleInput(teamInput=[]))
+def writeHTML(teamsInput):
+    if not teamsInput:
+        teamsInput = ['国安', '利物浦', '阿森纳', '热刺', '勇士', 'F1', '皇家马德里']
     with open(filename, 'w', encoding='UTF-8') as fh:
-        output = template.render(showListReady=showListReady)
+        output = template.render(showListReady=showTeam(*teamsInput))
         fh.write(output)
 
-    eel.start('index.html', size=(752, 730))
+
+class index(wuy.Window):  # name the class as the web/<class_name>.html
+    size = (750, 700)
+    # name = None  # <- a placeholder
+
+    def make(self, name):
+        writeHTML(name)
+        return name
+
+
+if __name__ == '__main__':
+    # showListReady = showTeam(*handleInput(teamInput=[]))
+    index(port=8888)
+    # if x.name:
+    #     writeHTML(x.name)
+    # else:
+    #     writeHTML(None)
